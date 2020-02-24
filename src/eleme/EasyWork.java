@@ -18,17 +18,15 @@ import java.util.regex.Pattern;
 public class EasyWork {
     public static void main(String[] args) {
         String proPath = "E:/Project/poi/src/eleme/easy.properties";
-
-        String filepath = "C:/Users/Administrator.USER-20190928MJ/Desktop/800app数据备份/市场管理/Leads潜在学员/Leads潜在学员.csv";
-        String outPath = "E:/output";
         Properties pro = new Properties();
-
         try {
             InputStream is = new FileInputStream(new File(proPath));
             InputStreamReader br = new InputStreamReader(is, Charset.forName("GBK"));
             pro.load(br);
+            String filepath = pro.getProperty("easywork.sourcePath");
+            String outPath = pro.getProperty("easywork.outputPath");
             String headString = pro.getProperty("easywork.headers");
-            easyCsv(filepath, outPath, 1001, 2000, headString.split(","));
+            easyCsv(filepath, outPath, 1, 1000, headString.split(","));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -85,9 +83,9 @@ public class EasyWork {
                 creator++;
                 index++;
             }
-            outputStream = new FileOutputStream(String.format(fileOutputPath  + "/output_line_%s_to_line_%s.xls", startNum, endNum));
+            outputStream = new FileOutputStream(String.format(fileOutputPath  + file.getName() + "_%s_to_line_%s.xls", startNum, endNum));
             workbook.write(outputStream);
-            System.out.println(String.format("文档输出完成:" + fileOutputPath + "/output_line_%s_to_line_%s.xls", startNum, endNum));
+            System.out.println(String.format("文档输出完成:" + fileOutputPath + file.getName() + "/output_line_%s_to_line_%s.xls", startNum, endNum));
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
